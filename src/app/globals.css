@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    height: --webkit-fill-available;
+}
+
+body {
+    height: --webkit-fill-available;
+}
+
+@layer utilities {
+    .animation-pause {
+        animation-play-state: paused;
+    }
+}
