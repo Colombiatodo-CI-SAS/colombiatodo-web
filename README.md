@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Colombiatodo Web
 
-## Getting Started
+Este es un proyecto de [Next.js](https://nextjs.org/) creado con [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-First, run the development server:
+## Tabla de Contenidos
+
+- [Descripción](#descripción)
+- [Características](#características)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Variables de Entorno](#variables-de-entorno)
+- [Despliegue](#despliegue)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
+
+## Descripción
+
+Colombiatodo Web es una plataforma de comercio electrónico que permite a los usuarios explorar y comprar productos de diversas categorías.
+
+## Características
+
+- Listado de productos y categorías.
+- Detalles del producto.
+- Banners responsivos.
+- Integración con proveedores.
+- Soporte para múltiples marcas.
+
+## Instalación
+
+Primero, clona el repositorio:
+
+```bash
+git clone https://github.com/tu-usuario/colombiatodo-web.git
+cd colombiatodo-web
+```
+
+Luego, instala las dependencias:
+
+```bash
+npm install
+# o
+yarn install
+# o
+pnpm install
+```
+
+Finalmente, inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
+# o
 yarn dev
-# or
+# o
 pnpm dev
-# or
+# o
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variables de Entorno
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Configura las siguientes variables de entorno en un archivo `.env` en la raíz del proyecto:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```env
+NEXT_PUBLIC_ENVIRONMENT = "development"
 
-## Learn More
+#SUPABASE
+NEXT_PUBLIC_SUPABASE_URL = 
+NEXT_PUBLIC_SUPABASE_KEY = 
 
-To learn more about Next.js, take a look at the following resources:
+#MIPAQUETE
+NEXT_PUBLIC_SESSION_TRACKER = 
+NEXT_PUBLIC_API_KEY_PROD = 
+NEXT_PUBLIC_API_KEY_DEV  = 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#Firebase keys
+NEXT_PUBLIC_FIREBASE_API_KEY = 
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = 
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = 
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = 
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = 
+NEXT_PUBLIC_FIREBASE_APP_ID = 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#Mercado pago keys
+NEXT_PUBLIC_MERCADO_PAGO_DEV = 
+NEXT_PUBLIC_MERCADO_PAGO_PRODUCTION_PUBLIC_KEY = 
+NEXT_PUBLIC_CLIENT_SECRET = 
+vendedor = 
+password_vendedor = 
+comprador = TESTUSER694831332
+password_comprador = kYieanE7Ct
+mastercard = 5120 6944 7061 6271
+vence = 11/25
 
-## Deploy on Vercel
+#Strapi
+NEXT_PUBLIC_UPDATE_PRODUCT_TOKEN = 
+NEXT_PUBLIC_API_URL = 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#TUNNEL_PORTS
+NEXT_PUBLIC_TUNNEL_URL =
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Esta estructura cubre los aspectos esenciales de tu proyecto y proporciona una guía clara para los desarrolladores que deseen contribuir o desplegar la aplicación.
