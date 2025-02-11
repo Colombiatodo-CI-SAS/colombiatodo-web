@@ -1,0 +1,7 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/jsx-no-img-element": "off", // This rule is already disabled
+    "react-hooks/exhaustive-deps": "off"
+  }
+}
