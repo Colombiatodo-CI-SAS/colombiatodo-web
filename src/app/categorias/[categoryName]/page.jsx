@@ -6,7 +6,7 @@ import { getCategoryByName } from "@/services/GetCategories";
 export async function generateMetadata({ params }) {
     const category = await getCategoryByName(params.categoryName);
     const { categoria, descripcion, productos } = category.attributes;
-    const categoryDescription = descripcion.slice(0, 2).join(" ");
+    const categoryDescription = descripcion
     const productKeywords = productos.data.map(({ attributes }) => attributes.titulo).join(", ");
     const keywords = `${categoria}, ${productKeywords}`;
 

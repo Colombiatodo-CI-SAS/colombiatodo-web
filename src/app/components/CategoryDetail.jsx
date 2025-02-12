@@ -101,19 +101,21 @@ export default function CategoryDetail({ params }) {
 
     return (
         <>
-            {
-                loading ? <Loader /> : (
-                    <>
-                        <h2 className="font-bold text-xl">{categorySelected?.attributes.categoria}</h2>
-                        <p className="text-sm text-gray-600 text-balance">{categorySelected?.attributes.descripcion}</p>
-                        <section className="mt-6 flex">
-                            {
-                                productsRender()
-                            }</section>
-                    </>
-                )
-            }
-
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+                    <h2 className="font-bold text-xl">
+                        {categorySelected?.attributes.categoria}
+                    </h2>
+                    <p className="text-sm text-gray-600 text-balance">
+                        {categorySelected?.attributes.descripcion}
+                    </p>
+                    <section className="mt-6 flex">
+                        {productsRender()}
+                    </section>
+                </>
+            )}
         </>
     );
 }
