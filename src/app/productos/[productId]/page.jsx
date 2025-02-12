@@ -1,14 +1,19 @@
 import { Loader } from "@/components/Loader";
 import ProductDetail from "@/components/Product/ProductDetail";
 import { Suspense } from "react";
-import { getProductById } from "@/services/GetProducts";
+import { getProductById, getAllProductIds } from "@/services/GetProducts";
 
+// Generate metadata for each product page
 export async function generateMetadata({ params }) {
     const product = await getProductById(params.productId);
-    const { titulo, descripcion, imagenes, categorias } = product.attributes;    
-    const productDescription = descripcion.map(({ type, children }) => children[0].text).join(" ");    
+    const { titulo, descripcion, imagenes, categorias } = product.attributes;
+    const productDescription = descripcion
+        .map(({ type, children }) => children[0].text)
+        .join(" ");
     const descriptionKeywords = productDescription.split(" ").join(", ");
-    const categoryKeywords = categorias.data.map(({ attributes }) => attributes.categoria).join(", ");
+    const categoryKeywords = categorias.data
+        .map(({ attributes }) => attributes.categoria)
+        .join(", ");
     const keywords = `${categoryKeywords}, ${descriptionKeywords}`;
 
     return {
@@ -22,12 +27,16 @@ export async function generateMetadata({ params }) {
     };
 }
 
-export default function ProductPage({ params }) {
+export async function generateStaticParams() {
+    const paths = await getAllProductIds();
+    return paths;
+}
+
+export default async function ProductPage({ params }) {
+    const product = await getProductById(params.productId);    
     return (
-        <Suspense fallback={
-            <Loader />
-        }>
-            <ProductDetail params={params} />
+        <Suspense fallback={<Loader />}>
+            <ProductDetail info={product} />
         </Suspense>
-    )
+    );
 }

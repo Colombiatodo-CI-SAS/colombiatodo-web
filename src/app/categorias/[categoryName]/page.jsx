@@ -1,7 +1,7 @@
 import CategoryDetail from "@/components/CategoryDetail";
 import { Loader } from "@/components/Loader";
 import { Suspense } from "react";
-import { getCategoryByName } from "@/services/GetCategories";
+import { getAllCategoriesId, getCategoryByName } from "@/services/GetCategories";
 
 export async function generateMetadata({ params }) {
     const category = await getCategoryByName(params.categoryName);
@@ -21,12 +21,16 @@ export async function generateMetadata({ params }) {
     };
 }
 
-export default function CategoryPage({ params }) {
+export async function generateStaticParams() {
+    const paths = await getAllCategoriesId();
+    return paths;
+}
+
+export default async function CategoryPage({ params }) {
+    const category = await getCategoryByName(params.categoryName);
     return (
-        <Suspense fallback={
-            <Loader />
-        }>
-            <CategoryDetail params={params} />
+        <Suspense fallback={<Loader />}>
+            <CategoryDetail info={category} />
         </Suspense>
-    )
+    );
 }

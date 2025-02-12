@@ -14,7 +14,7 @@ export const getCategories = async () => {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
 
-        const data = await res.json();        
+        const data = await res.json();
         return data;
     } catch (error) {
         console.error("Fetch error:", error);
@@ -35,3 +35,13 @@ export const getCategoryByName = async (categoryName) => {
         throw error;
     }
 };
+
+export async function getAllCategoriesId() {
+    const response = await fetch(BASE_URL);
+    const categories = await response.json();
+    return categories.data.map(cat => ({
+        params: {
+            categoryName: cat.id.toString(),
+        },
+    }));
+}

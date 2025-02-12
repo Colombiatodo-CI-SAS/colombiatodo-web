@@ -45,3 +45,13 @@ export const getProductById = async (productId) => {
   }
 };
 
+export async function getAllProductIds() {
+  const response = await fetch(BASE_URL);
+  const products = await response.json();
+  return products.data.map(product => ({
+      params: {
+          productId: product.id.toString(),
+      },
+  }));
+}
+
