@@ -1,4 +1,4 @@
-const BASE_URL =
+export const BASE_URL =
   "https://colombiatodo-cms.onrender.com/api/productos?populate=seller&populate=imagenes&populate=categorias&populate=tallas_disponibles&populate=dimensiones_producto&populate=dimensiones_empaque&populate=especificaciones";
 
 const BASE_URL_DEV = "http://localhost:1337/api/productos?populate=*";
@@ -7,8 +7,8 @@ const BASE_URL_PORT = "https://bb19p4jm-1337.use.devtunnels.ms/api/productos?pop
 
 export const getProducts = async () => {
   try {
-    let page = 1
-    let pageSize = 20
+    let page = 1;
+    let pageSize = 20;
     let allProducts = [];
     let hasMore = true;
 
@@ -19,12 +19,11 @@ export const getProducts = async () => {
       }
       const data = await res.json();
       allProducts = [...allProducts, ...data.data];
-      const { pageCount } = data.meta.pagination
-      hasMore = page < pageCount
-      page++
+      const { pageCount } = data.meta.pagination;
+      hasMore = page < pageCount;
+      page++;
     }
     return allProducts;
-
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
@@ -49,9 +48,9 @@ export async function getAllProductIds() {
   const response = await fetch(BASE_URL);
   const products = await response.json();
   return products.data.map(product => ({
-      params: {
-          productId: product.id.toString(),
-      },
+    params: {
+      productId: product.id.toString(),
+    },
   }));
 }
 

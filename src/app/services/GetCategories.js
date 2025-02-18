@@ -1,4 +1,4 @@
-const BASE_URL =
+export const BASE_URL =
     "https://colombiatodo-cms.onrender.com/api/categorias?populate[productos][populate][0]=imagenes&populate=imagen";
 
 const BASE_URL_DEV = "http://localhost:1337/api/categorias?populate=*";
@@ -41,7 +41,7 @@ export async function getAllCategoriesId() {
     const categories = await response.json();
     return categories.data.map(cat => ({
         params: {
-            categoryName: cat.id.toString(),
+            categoryName: cat.attributes.slug,
         },
     }));
 }
