@@ -67,10 +67,43 @@ export default function ProductDetail({ info }) {
     const { razonSocial } = seller.data.attributes;
     const { data } = categorias;
 
-    const productDescription = descripcion.map(({ type, children }) => {
-        const { text } = children[0];
-        return <p key={crypto.randomUUID()}>{text}</p>;
-    });
+    const renderDescription = (description) => {
+        const maxHeight = seeMore ? "none" : "200px";
+        return (
+            <div
+                className={`overflow-hidden transition-all duration-300 relative`}
+                style={{ maxHeight }}
+            >
+                <div className="space-y-2">
+                    {description.map((item) => {
+                        if (item.type === "paragraph") {
+                            return item.children.map((child) => (
+                                <p key={crypto.randomUUID()} className="text-sm text-gray-600">
+                                    {child.text}
+                                </p>
+                            ));
+                        } else if (item.type === "list") {
+                            return (
+                                <ul key={crypto.randomUUID()} className="list-disc pl-5 text-sm text-gray-600">
+                                    {item.children.map((listItem) => (
+                                        <li key={crypto.randomUUID()}>
+                                            {listItem.children[0].text}
+                                        </li>
+                                    ))}
+                                </ul>
+                            );
+                        }
+                        return null;
+                    })}
+                </div>
+                {!seeMore && (
+                    <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent" />
+                )}
+            </div>
+        );
+    };
+
+    const productDescription = renderDescription(descripcion);
 
     const goBack = () => {
         router.back();
@@ -157,13 +190,14 @@ export default function ProductDetail({ info }) {
                             <p className="font-light text-gray-400 lg:text-right">{stock} unidades disponibles</p>
                         </div>
                     </div>
-                    <div>
-                        {seeMore ? productDescription : productDescription.slice(0, 4)}
-                        {seeMore ? (
-                            <button onClick={toggleSeeMore} className="text-blue-500 font-light">Ver menos</button>
-                        ) : (
-                            <button onClick={toggleSeeMore} className="text-blue-500 font-light">Ver más</button>
-                        )}
+                    <div className="flex flex-col gap-2">
+                        {productDescription}
+                        <button
+                            onClick={toggleSeeMore}
+                            className="text-blue-500 hover:text-blue-700 text-sm font-medium self-start"
+                        >
+                            {seeMore ? "Ver menos" : "Ver más"}
+                        </button>
                     </div>
 
                     {tallas_disponibles.length > 0 && (
