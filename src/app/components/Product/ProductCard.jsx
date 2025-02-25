@@ -40,7 +40,7 @@ export function ProductCard({ id, title, image, price, stock, tax, discount, onC
                 className="text-xs lg:text-sm">{basePrice}</p>
               :
               <p
-                className="text-xs lg:text-sm flex flex-col-reverse">
+                className="text-xs lg:text-sm flex flex-row-reverse items-center gap-1">
                 <span
                   className="line-through">
                   {basePrice}
@@ -48,7 +48,7 @@ export function ProductCard({ id, title, image, price, stock, tax, discount, onC
 
                 <span
                   className="font-bold no-underline flex justify-between items-center">
-                  {priceWithDiscount} <span className="bg-green-500 text-white px-1 py-1 rounded-md">
+                  {priceWithDiscount} <span className="bg-green-500 text-white px-1 py-1 rounded-md absolute top-2 right-2">
                     %{discount}
                   </span>
                 </span>

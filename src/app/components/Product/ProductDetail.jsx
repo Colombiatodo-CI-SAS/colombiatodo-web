@@ -90,9 +90,9 @@ export default function ProductDetail({ info }) {
             )}
             <section id={uuid} className="flex flex-col gap-3 md:flex-row md:gap-24">
                 <ArrowLeft onClick={goBack} className="block md:hidden" />
-                <div className="flex flex-col-reverse lg:flex-row gap-3 w-full lg:w-full">
+                <div className="flex flex-col-reverse xl:flex-row gap-3 w-full lg:w-full">
                     {imagenes.data.length > 0 && (
-                        <div className="flex flex-row lg:flex-col h-full overflow-y-auto gap-2">
+                        <div className="flex flex-row xl:flex-col xl:h-[450px] overflow-auto gap-2">
                             {imagenes.data.map(({ id, attributes }) => {
                                 const { url } = attributes;
                                 return (
@@ -104,7 +104,7 @@ export default function ProductDetail({ info }) {
                                         width={200}
                                         height={200}
                                         decoding="async"
-                                        className={`w-[100px] h-[100px] object-cover lg:w-[100px] lg:h-[100px] aspect-square rounded-md shadow-sm border border-gray-300 hover:opacity-100 hover:border-gray-400 cursor-pointer transition-all ${selectedImg === id ? "opacity-100 border-gray-400 border-2" : "opacity-70"}`}
+                                        className={`w-[100px] h-[100px] object-cover aspect-square rounded-md shadow-sm border border-gray-300 hover:opacity-100 hover:border-gray-400 cursor-pointer transition-all ${selectedImg === id ? "opacity-100 border-gray-400 border-2" : "opacity-70"}`}
                                         onClick={() => handleImgClick(id)}
                                     />
                                 );
@@ -122,7 +122,7 @@ export default function ProductDetail({ info }) {
                                 width={450}
                                 height={450}
                                 decoding="async"
-                                className="w-full h-[200px] object-cover md:w-[450px] md:h-[450px] aspect-square rounded-md shadow-sm border border-gray-300"
+                                className="w-full h-[300px] object-contain md:object-cover md:w-[450px] md:h-[450px] aspect-square rounded-md shadow-sm border border-gray-300"
                             />
                         );
                     })}
