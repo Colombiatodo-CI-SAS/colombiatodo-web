@@ -187,7 +187,12 @@ export default function ProductDetail({ info }) {
                                     <span className="bg-green-500 text-white px-1 py-1 rounded-md">%{descuento}</span>
                                 </p>
                             )}
-                            <p className="font-light text-gray-400 lg:text-right">{stock} unidades disponibles</p>
+                            {
+                                stock > 0
+                                    ? <p className="font-light text-gray-400 lg:text-right">{stock} unidades disponibles</p>
+                                    : <p className="text-red-500 text-sm lg:text-base lg:text-right">Agotado</p>
+                            }
+
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
@@ -233,8 +238,14 @@ export default function ProductDetail({ info }) {
                             }}
                             loading={isLoading}
                             error={cartError}
+                            disabled={stock === 0}
                         >
-                            Añadir al carrito
+                            {
+                                stock === 0
+                                    ? "Agotado"
+                                    : "Añadir al carrito"
+
+                            }
                         </Button>
                         {continueShopping && (
                             <Link href={"/productos"} className="text-xs md:text-base text-blue-500 hover:text-blue-700 cursor-pointer">
