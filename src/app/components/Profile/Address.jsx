@@ -137,7 +137,6 @@ export default function Address() {
                                                 department={department}
                                                 phoneNumber={phoneNumber}
                                                 deleteAddress={() => deleteAddress(id)}
-                                                isLoading={isLoading}
                                                 isSelectable={false}
                                                 isDeletable
                                             />

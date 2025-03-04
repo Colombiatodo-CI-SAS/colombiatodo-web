@@ -17,7 +17,6 @@ export const useMiPaquete = () => {
 
     const [sendingId, setSendingId] = useState(null)
 
-
     const getLocations = async () => {
         const options = {
             method: "GET",
@@ -29,6 +28,23 @@ export const useMiPaquete = () => {
         }
         try {
             const res = await fetch(`${baseUrl}getLocations`, options)
+            const data = await res.json()
+            return data
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const getSpecificLocation = async (locationCode) => {
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "session-tracker": SESSION_TRACKER,
+                "apikey": apiKey
+            }
+        }
+        try {
+            const res = await fetch(`${baseUrl}getLocations?locationCode=${locationCode}`, options)
             const data = await res.json()
             return data
         } catch (error) {
@@ -185,5 +201,6 @@ export const useMiPaquete = () => {
         createSending,
         getSendingTracking,
         sendingId,
+        getSpecificLocation
     }
 }
