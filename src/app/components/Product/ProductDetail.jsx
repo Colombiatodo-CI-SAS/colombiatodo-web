@@ -6,29 +6,24 @@ import { useRouter } from "next/navigation";
 import { useShoppingCart } from "@/hooks/useShoppingCart";
 import { Button } from "@/components/Button";
 import { priceFormatter } from "@/utils/priceFormatter";
-import { useProducts } from "@/hooks/useProducts";
 import { useToast } from "@/hooks/useToast";
 import Toast from "@/components/Toast";
 import { useEffect, useState } from "react";
 import { Loader } from "@/components/Loader";
 import Link from "next/link";
+import { ProductImageSelector } from "./ProductImageSelector";
 
 export default function ProductDetail({ info }) {
     const [seeMore, setSeeMore] = useState(false);
-    const [product, setProduct] = useState(info);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedImg, setSelectedImg] = useState(null);
     const [continueShopping, setContinueShopping] = useState(false);
 
     const shoppingCart = useShoppingCart();
-    const { products } = useProducts();
     const { hideToast } = useToast();
     const { handleAddItem, isLoading, error: cartError, toast } = shoppingCart;
     const router = useRouter();
-
-    const { productId, strapiID } = info;
 
     const toggleSeeMore = () => {
         setSeeMore(prevState => !prevState);
@@ -43,27 +38,42 @@ export default function ProductDetail({ info }) {
         setSelectedImg(id);
     };
 
-    const characterLimit = 300;
-
     useEffect(() => {
         hideToast();
     }, []);
 
     useEffect(() => {
-        if (product && product.attributes.imagenes.data.length > 0) {
-            setSelectedImg(product.attributes.imagenes.data[0].id);
+        let loadingTimeout = setTimeout(() => {
+            setLoading(false);
+        }, 500)
+
+        return () => {
+            clearTimeout(loadingTimeout);
         }
-    }, [product]);
+    }, [])
+
+    useEffect(() => {
+        if (info && info.attributes.imagenes.data.length > 0) {
+            setSelectedImg(info.attributes.imagenes.data[0].id);
+        }
+    }, [info]);
 
     if (loading) {
         return <Loader />;
     }
 
-    if (!product) {
-        return <p>{error}</p>;
+    if (!info) {
+        return (
+            <div className="flex flex-col items-center justify-center mx-auto gap-3 w-1/2 h-[30dvh]">
+                <p className="text-lg">Hubo un error cargando el producto, intenta de nuevo</p>
+                <Button action={goBack} className="mt-4">
+                    Volver
+                </Button>
+            </div>
+        );
     }
 
-    const { uuid, titulo, precio, imagenes, stock, descuento, impuesto, descripcion, categorias, seller, tallas_disponibles, especificaciones } = product.attributes;
+    const { uuid, titulo, precio, imagenes, stock, descuento, impuesto, descripcion, categorias, seller, tallas_disponibles, especificaciones } = info.attributes;
     const { razonSocial } = seller.data.attributes;
     const { data } = categorias;
 
@@ -105,7 +115,7 @@ export default function ProductDetail({ info }) {
 
     const productDescription = renderDescription(descripcion);
 
-    const goBack = () => {
+    function goBack() {
         router.back();
     };
 
@@ -123,48 +133,17 @@ export default function ProductDetail({ info }) {
             )}
             <section id={uuid} className="flex flex-col gap-3 md:flex-row md:gap-24">
                 <ArrowLeft onClick={goBack} className="block md:hidden" />
-                <div className="flex flex-col-reverse xl:flex-row gap-3 w-full lg:w-full">
-                    {imagenes.data.length > 0 && (
-                        <div className="flex flex-row xl:flex-col xl:h-[450px] overflow-auto gap-2">
-                            {imagenes.data.map(({ id, attributes }) => {
-                                const { url } = attributes;
-                                return (
-                                    <img
-                                        key={crypto.randomUUID()}
-                                        alt={`Imagen de ${titulo} producto`}
-                                        src={url}
-                                        loading="lazy"
-                                        width={200}
-                                        height={200}
-                                        decoding="async"
-                                        className={`w-[100px] h-[100px] object-cover aspect-square rounded-md shadow-sm border border-gray-300 hover:opacity-100 hover:border-gray-400 cursor-pointer transition-all ${selectedImg === id ? "opacity-100 border-gray-400 border-2" : "opacity-70"}`}
-                                        onClick={() => handleImgClick(id)}
-                                    />
-                                );
-                            })}
-                        </div>
-                    )}
-                    {imagenes.data.filter(({ id }) => id === selectedImg).map(({ attributes }) => {
-                        const { url } = attributes;
-                        return (
-                            <img
-                                key={crypto.randomUUID()}
-                                alt={`Imagen de ${titulo} producto`}
-                                src={url || imagenes.data[0].attributes.url}
-                                loading="lazy"
-                                width={450}
-                                height={450}
-                                decoding="async"
-                                className="w-full h-[300px] object-contain md:object-cover md:w-[450px] md:h-[450px] aspect-square rounded-md shadow-sm border border-gray-300"
-                            />
-                        );
-                    })}
-                </div>
+                <ProductImageSelector
+                    imagenes={imagenes}
+                    selectedImg={selectedImg}
+                    handleImgClick={handleImgClick}
+                    titulo={titulo}
+                />
 
                 <div className="flex flex-col justify-between gap-4 lg:gap-2 w-full">
                     <section className="flex">
                         {data.map(({ attributes }) => {
-                            const { id, categoria } = attributes;
+                            const { categoria } = attributes;
                             return (
                                 <p key={categoria} className="text-sm bg-gray-100 py-1 px-4 w-max rounded-2xl font-light">{categoria}</p>
                             );
@@ -233,7 +212,7 @@ export default function ProductDetail({ info }) {
                     <fieldset className="flex flex-col gap-3 items-center">
                         <Button
                             action={() => {
-                                handleAddItem(product, selectedSize);
+                                handleAddItem(info, selectedSize);
                                 setContinueShopping(prevState => !prevState);
                             }}
                             loading={isLoading}
