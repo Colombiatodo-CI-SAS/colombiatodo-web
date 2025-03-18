@@ -34,15 +34,16 @@ export default function Home() {
         }
         return prev + 1
       })
+      
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [currentImgIndex])
 
   useEffect(() => {
     const responsiveBannerSrc = responsiveBanner()
     setResponsiveBannerSrc(responsiveBannerSrc)
-  }, [])
+  }, [currentImgIndex])
 
 
   function responsiveBanner() {
