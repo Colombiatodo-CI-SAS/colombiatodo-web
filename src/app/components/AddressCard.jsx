@@ -34,8 +34,6 @@ export default function AddressCard({
             try {
                 setIsLoading(true);
                 const locationData = await getSpecificLocation(city);
-                console.log(locationData);
-
                 setLocation(locationData);
             } catch (error) {
                 console.error('Error fetching location:', error);
@@ -46,10 +44,6 @@ export default function AddressCard({
 
         fetchLocation();
     }, [department, city]);
-
-    useEffect(() => {
-        console.log('Location:', location);
-    }, [location])
 
     return (
         <>
@@ -77,7 +71,7 @@ export default function AddressCard({
                             </section>
 
                             {isDeletable && (
-                                <section className="flex flex-row divide-x-2">
+                                <div className="flex flex-row divide-x-2">
                                     <button
                                         className="text-sm text-blue-500 hover:text-blue-700 px-2"
                                         onClick={(e) => {
@@ -87,7 +81,7 @@ export default function AddressCard({
                                     >
                                         Eliminar
                                     </button>
-                                </section>
+                                </div>
                             )}
 
                             {isSelectable && (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
 import { useMiPaquete } from "./useMiPaquete";
 import { arrayRemove, arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
-import { db } from "@/services/Firebase";
+import { addAddressToDB, db } from "@/services/Firebase";
 
 export const useAddressForm = () => {
 
@@ -84,18 +84,7 @@ export const useAddressForm = () => {
         e.preventDefault()
         setIsLoading(true)
         try {
-            const userRef = doc(db, "customers", user.uid)
-            const addressDataFormatted = {
-                id: crypto.randomUUID(),
-                name: addressData.name,
-                address: addressData.address,
-                department: addressData.department,
-                city: addressData.city,
-                phoneNumber: addressData.phoneNumber
-            }
-            await updateDoc(userRef, {
-                addresses: arrayUnion(addressDataFormatted)
-            })
+            addAddressToDB(addressData, user)
         } catch (error) {
             console.log(error);
         } finally {

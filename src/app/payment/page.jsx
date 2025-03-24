@@ -37,6 +37,8 @@ export default function Payment() {
         preferenceId
     } = useMpPayment(shoppingCart, totalCalculation);
 
+    const [selectedAddress, setSelectedAddress] = useState(null)
+
     const {
         paymentOptions,
         handleFormSubmit,
@@ -51,15 +53,15 @@ export default function Payment() {
         isShippingFormValid,
         citiesMiPaquete,
         cheapestShipping,
-        setShippingData
-    } = useShippingForm(mercadopagoPayment, shoppingCart);
+        setShippingData,
+        isLoadingShipping // Add this new state from useShippingForm
+    } = useShippingForm(mercadopagoPayment, shoppingCart, selectedAddress);
 
-    const { userAddresses, isLoading: addressLoading, deleteAddress } = useAddressForm()
+    const { userAddresses, isLoading: addressLoading } = useAddressForm()
 
     const [paymentStep, setPaymentStep] = useState(1);
     const [isMobile, setIsMobile] = useState(false);
     const [showForm, setShowForm] = useState(false)
-    const [selectedAddress, setSelectedAddress] = useState(null)
 
     const toggleForm = () => {
         setShowForm(prevState => !prevState)
@@ -127,7 +129,12 @@ export default function Payment() {
 
     const { isBillingFormValid, billingInput } = useBillingForm()
 
-    const isFormValid = isShippingFormValid && cheapestShipping && (billingInput || isBillingFormValid);
+    // Modify the form validation to include shipping loading state
+    const isFormValid = isShippingFormValid && 
+        cheapestShipping && 
+        cheapestShipping.shippingCost > 0 && 
+        !isLoadingShipping && 
+        (billingInput || isBillingFormValid);
 
     return (
         <section className="md:flex md:justify-between md:gap-12">
@@ -162,7 +169,6 @@ export default function Payment() {
                                                     city={city}
                                                     department={department}
                                                     phoneNumber={phoneNumber}
-                                                    deleteAddress={() => deleteAddress(id)}
                                                     isLoading={isLoading}
                                                     isSelectable
                                                     isSelected={selectedAddress === id}
@@ -221,11 +227,11 @@ export default function Payment() {
                 <BillingForm />
 
                 <Button
-                    loading={isLoading}
+                    loading={isLoading || isLoadingShipping}
                     disabled={!isFormValid}
                     action={handleFormSubmit}
                 >
-                    Pagar ahora
+                    {isLoadingShipping ? 'Calculando envío...' : 'Pagar ahora'}
                 </Button>
 
 

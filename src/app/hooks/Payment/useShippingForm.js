@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { usePaymentFormData } from "@/hooks/Payment/usePaymentFormData";
 import { useMiPaquete } from "@/hooks/useMiPaquete";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "@/services/Firebase";
+import { addAddressToDB, db } from "@/services/Firebase";
 import { useAuth } from "../useAuth";
 
-export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
+export const useShippingForm = (mercadopagoPayment, shoppingCart, selectedAddress) => {
     const { shippingData, setShippingData, inputOnChange, isShippingFormValid, setIsShippingFormValid } = usePaymentFormData();
     const [selectedDepartment, setSelectedDepartment] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
@@ -23,6 +22,7 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
     const [isLocalStorageAvailable, setIsLocalStorageAvailable] = useState(false)
     const { getLocations, quoteShipping } = useMiPaquete();
     const { user } = useAuth()
+    const [isLoadingShipping, setIsLoadingShipping] = useState(false);
 
     const checkLocalStorage = () => {
         if (typeof window !== 'undefined') {
@@ -48,8 +48,16 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
     useEffect(() => {
         if (shippingData.city && shoppingCart) {
             const setTransportationData = async () => {
-                const transportationData = await quoteShipping(shippingData.city, shoppingCart);
-                setTransportation(transportationData);
+                setIsLoadingShipping(true)
+                try {
+                    const transportationData = await quoteShipping(shippingData.city, shoppingCart);
+                    setTransportation(transportationData);
+                } catch (error) {
+                    console.error(error);
+
+                } finally {
+                    setIsLoadingShipping(false)
+                }
             };
             setTransportationData();
         }
@@ -104,13 +112,20 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
     };
 
     useEffect(() => {
-        const lowestShippingCost = findLowestShippingCost();
-        setCheapestShipping({
-            name: lowestShippingCost.deliveryCompanyName,
-            shippingCost: lowestShippingCost.shippingCost,
-            img: lowestShippingCost.deliveryCompanyImgUrl,
-            shippingTime: lowestShippingCost.shippingTime,
-        });
+        try {
+            setIsLoadingShipping(true)
+            const lowestShippingCost = findLowestShippingCost();
+            setCheapestShipping({
+                name: lowestShippingCost.deliveryCompanyName,
+                shippingCost: lowestShippingCost.shippingCost,
+                img: lowestShippingCost.deliveryCompanyImgUrl,
+                shippingTime: lowestShippingCost.shippingTime,
+            });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoadingShipping(false)
+        }
     }, [transportation]);
 
     const handleFormSubmit = async (e) => {
@@ -118,17 +133,9 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
         try {
             e.preventDefault();
             await mercadopagoPayment(cheapestShipping.shippingCost);
-            const userRef = doc(db, "customers", user.uid)
-            const shippingDataFormatted = {
-                name: shippingData.name,
-                address: shippingData.address,
-                department: shippingData.department,
-                city: shippingData.city,
-                phoneNumber: shippingData.phoneNumber
+            if (!selectedAddress) {
+                addAddressToDB(shippingData, user)
             }
-            await updateDoc(userRef, {
-                addresses: arrayUnion(shippingDataFormatted)
-            })
         } catch (error) {
             console.error(error);
         } finally {
@@ -141,6 +148,7 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
         const isValid = Object.values(shippingData).every(field => field?.trim() !== "");
         setIsShippingFormValid(isValid);
     }, [shippingData]);
+
 
     return {
         handleFormSubmit,
@@ -156,6 +164,7 @@ export const useShippingForm = (mercadopagoPayment, shoppingCart) => {
         citiesMiPaquete,
         paymentOptions,
         cheapestShipping,
-        setShippingData
+        setShippingData,
+        isLoadingShipping,
     };
 };
