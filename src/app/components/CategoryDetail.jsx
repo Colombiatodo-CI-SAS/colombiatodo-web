@@ -85,7 +85,7 @@ export default function CategoryDetail({ info }) {
 
     return (
         <>
-            <h2 className="font-bold text-xl">{categoria}</h2>
+            <h3 className="font-bold text-xl">{categoria}</h3>
             <p className="text-sm text-gray-600 text-balance">
                 {descripcion}
             </p>

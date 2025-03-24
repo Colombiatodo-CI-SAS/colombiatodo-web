@@ -151,7 +151,7 @@ export default function ProductDetail({ info }) {
                     </section>
                     <div className="flex flex-col lg:flex-row gap-2 lg:gap-0 lg:justify-between lg:items-center">
                         <div>
-                            <h2 className="font-bold text-xl lg:text-xl">{titulo}</h2>
+                            <h3 className="font-bold text-xl lg:text-xl">{titulo}</h3>
                             <h4 className="font-light text-gray-400">Vendido por: <span className="font-medium cursor-pointer">{razonSocial}</span></h4>
                         </div>
                         <div className="flex flex-col">

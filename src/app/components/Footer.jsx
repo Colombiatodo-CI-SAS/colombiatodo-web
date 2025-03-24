@@ -23,19 +23,20 @@ export function Footer() {
             </div>
             <section className="py-8 flex flex-col gap-3 justify-center md:justify-between items-center lg:flex-row">
                 <span>
-                    <img className="w-28 md:w-40" src="/images/logo_colombiatodo.webp" alt="Logo Colombiatodo" />
+                    <img className="w-28 md:w-40" src="/images/logo_colombiatodo.webp" alt="Logo Colombiatodo" title="Colombiatodo CI SAS"/>
                 </span>
                 <Link 
                 className={`${footerP} cursor-pointer hover:text-green-500 transition-colors`}
                 href={"/terms-of-use"}
+                title="Términos de uso"
                 >
                 Términos de uso
                 </Link>
                 <span className="flex gap-4">
                     {
                         SOCIAL_LINKS.map(({ id, url, label, icon }) => (
-                            <a key={id} href={url} target="_blank" className="hover:scale-105 transition-transform">
-                                <img src={icon} alt={label} width={"36"} height={"36"} />
+                            <a key={id} href={url} target="_blank" className="hover:scale-105 transition-transform" title={`Visitar ${label}`}>
+                                <img src={icon} alt={label} width={"36"} height={"36"} title={`Logo de ${label}`} />
                             </a>
                         ))
                     }
@@ -47,6 +48,7 @@ export function Footer() {
                     <a href="https://sunart-portfolio.vercel.app"
                     className="hover:text-gray-500 transition-colors"
                     target="_blank" rel="noopener noreferrer"
+                    title="Ver portafolio desarrollador - Sunart"
                     >
                         Sunart
                     </a>

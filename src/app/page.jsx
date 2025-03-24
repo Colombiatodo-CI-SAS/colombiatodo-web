@@ -74,7 +74,7 @@ export default function Home() {
               categories && !isLoadingCategories ? (
                 categoriesSort.map((category) => {
                   const { id, attributes } = category
-                  const { categoria, descripcion, productos, slug, imagen } = attributes
+                  const { categoria, productos, slug, imagen } = attributes
                   const { data } = productos || []
                   const { data: imagenData } = imagen
                   const { attributes: imagenAttributes } = imagenData
@@ -114,14 +114,15 @@ export default function Home() {
                 <Loader />
             }
           </section>
-          <Link href={"/categorias"} className="w-full text-center text-base md:text-sm text-blue-500 hover:text-blue-700 cursor-pointer">
+          <Link href={"/categorias"} className="w-full text-center text-base md:text-sm text-blue-500 hover:text-blue-700 cursor-pointer"
+          title="Ver todas las categorías">
             Ver más
           </Link>
         </div>
         <ScrollSection>
           <Subtitle>Productos populares / tendencias</Subtitle>
           <ProductsSection products={products} loading={isLoading} />
-          <Link href={"/productos"} className="w-full text-center text-base md:text-sm text-blue-500 hover:text-blue-700 cursor-pointer">
+          <Link href={"/productos"} className="w-full text-center text-base md:text-sm text-blue-500 hover:text-blue-700 cursor-pointer" title="Ver todos los productos">
             Ver más
           </Link>
         </ScrollSection>
@@ -172,7 +173,7 @@ export default function Home() {
                           key={id}
                           src=""
                           alt={razonSocial}
-                          title={razonSocial}
+                          title={`Logo de ${razonSocial}`}
                           loading="lazy"
                           className="mx-4 inline h-16"
                         />

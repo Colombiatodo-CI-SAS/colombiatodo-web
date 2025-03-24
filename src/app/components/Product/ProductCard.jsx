@@ -14,12 +14,14 @@ export function ProductCard({ id, title, image, price, stock, tax, discount, onC
       href={{
         pathname: `/productos/${id}`,
       }}
+      title={`Producto ${title}`}
     >
       <article className="shrink-0 snap-center origin-center scale-100 relative p-2 shadow-sm border border-gray-300 rounded-lg flex flex-col items-center sm:items-start gap-2 w-40 sm:w-48 md:w-52 lg:w-68 h-auto cursor-pointer hover:scale-105 transition-transform lg:shrink"
         onClick={onClick}
       >
         <img
           alt={`Imagen de ${title} producto`}
+          title={`Imagen de ${title} producto`}
           src={image}
           loading="lazy"
           width={260}

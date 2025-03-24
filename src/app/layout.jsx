@@ -10,7 +10,7 @@ import { FloatingButton } from "@/components/FloatingButton";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Colombiatodo CI SAS",
+  title: "Colombiatodo CI SAS | Tienda Online | Productos y Soluciones",
   description: "Colombiatodo, opciones y soluciones. Somos tu tienda online, donde podrás encontrar variedad de opciones para ti o tu negocio.",
   keywords: "tienda online, productos, soluciones, negocio, colombiatodo, compras, ecommerce",
   author: "Colombiatodo CI SAS",
@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className={inter.className}>
+        <h1 className="hidden">Colombiatodo CI SAS | Tienda Online | Productos y Soluciones</h1>
         <AuthContextProvider>
           <ProductsContextProvider>
             <ShoppingContextProvider>

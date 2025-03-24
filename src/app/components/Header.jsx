@@ -85,12 +85,13 @@ export function Header() {
                                 onClick={handleToggleHamburger} />
                     }
 
-                    <Link href='/' className="flex justify-center transition-scale duration-150 ease-in hover:scale-105 cursor-pointer">
+                    <Link href='/' className="flex justify-center transition-scale duration-150 ease-in hover:scale-105 cursor-pointer" title="Colombiatodo CI SAS">
                         <img
                             src="/images/logo_colombiatodo.webp"
                             alt="Logo Colombiatodo"
                             width={144}
                             height={144}
+                            title="Colombiatodo CI SAS"
                             className="w-28 md:w-36" />
                     </Link>
                     <form
@@ -164,13 +165,13 @@ export function Header() {
                                 {
                                     user?.emailVerified ?
                                         <>
-                                            <Link href={"/profile"} className="hover:text-green-500 transition-colors">Perfil</Link>
-                                            <p onClick={logout} className="hover:text-green-500 cursor-pointer transition-all">Cerrar sesión</p>
+                                            <Link href={"/profile"} className="hover:text-green-500 transition-colors" title="Ver perfil">Perfil</Link>
+                                            <p onClick={logout} className="hover:text-green-500 cursor-pointer transition-all" title="Cerrar sesión">Cerrar sesión</p>
                                         </>
                                         :
                                         <>
-                                            <Link href={"/login"} className="hover:text-green-500">Iniciar sesión</Link>
-                                            <Link href={"/register"} className="hover:text-green-500">Regístrate</Link>
+                                            <Link href={"/login"} title="Iniciar sesión" className="hover:text-green-500">Iniciar sesión</Link>
+                                            <Link href={"/register"} title="Registrarse" className="hover:text-green-500">Regístrate</Link>
                                         </>
 
                                 }
@@ -208,18 +209,18 @@ function LowOptions({ state, action, user, logout, toggleModal }) {
             {
                 !user ?
                     <div className="flex justify-around w-full md:hidden">
-                        <Link href={'/login'} onClick={state ? action : null}>
+                        <Link href={'/login'} title="Iniciar Sesión" onClick={state ? action : null}>
                             <Button>Iniciar sesión</Button>
                         </Link>
-                        <Link href={'/register'} onClick={state ? action : null}>
+                        <Link href={'/register'}  title="Registrarse" onClick={state ? action : null}>
                             <Button>Regístrate</Button>
                         </Link>
                     </div>
                     :
                     <>
-                        <Link href={""} className="font-light cursor-default md:hidden">Hola {user?.displayName ? user.displayName : "usuario"}</Link>
-                        <Link href={"/profile"} onClick={state ? action : null} className="hover:text-green-500 md:hidden">Perfil</Link>
-                        <p onClick={logout} className="hover:text-green-500 cursor-pointer md:hidden">Cerrar sesión</p>
+                        <p href={""} className="font-light cursor-default md:hidden">Hola {user?.displayName ? user.displayName : "usuario"}</p>
+                        <Link href={"/profile"} title="Ver perfil" onClick={state ? action : null} className="hover:text-green-500 md:hidden">Perfil</Link>
+                        <p onClick={logout} title="Cerrar sesión" className="hover:text-green-500 cursor-pointer md:hidden">Cerrar sesión</p>
                     </>
             }
             <hr className="border-gray-400" />
@@ -230,7 +231,9 @@ function LowOptions({ state, action, user, logout, toggleModal }) {
                             key={id}
                             href={`/${value}`}
                             onClick={state ? action : null}
-                            className={`text-balance ${pathname === (`/${value}`) ? "text-green-600" : "text-black"} transition-scale duration-150 ease-in hover:text-green-600 cursor-pointer`}>
+                            className={`text-balance ${pathname === (`/${value}`) ? "text-green-600" : "text-black"} transition-scale duration-150 ease-in hover:text-green-600 cursor-pointer`}
+                            title={label}
+                            >
                             {label}
                         </Link>
                     )

@@ -5,7 +5,7 @@ export function FloatingButton({icon}) {
             href="https://wa.me/573053440115"
             target="_blank"
             >
-            <img src={icon} />
+            <img src={icon} alt="Botón de contacto Whatsapp" title="Whatsapp"/>
         </a>
     )
 }
