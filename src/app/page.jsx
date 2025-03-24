@@ -127,7 +127,7 @@ export default function Home() {
           </Link>
         </ScrollSection>
 
-        <section className="w-full flex flex-col gap-8">
+        {/* <section className="w-full flex flex-col gap-8">
           <div>
             <Subtitle>Nuestros proveedores</Subtitle>
             <p className="text-center w-fit mx-auto">La mejor calidad a un click de distancia</p>
@@ -206,7 +206,7 @@ export default function Home() {
               </li>
             </ul>
           </div>
-        </section>
+        </section> */}
 
       </main>
     </>
